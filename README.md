@@ -1,4 +1,4 @@
-# The EM × AI Field Guide · iFLY Field Edition
+# The EM × AI Field Guide · Case Studies Edition
 
 Combined edition: the 18 KEEN entrepreneurial-mindset habits (EM × AI Field
 Guide) with field evidence from the iFLY wind tunnel case study — 65 engineer
