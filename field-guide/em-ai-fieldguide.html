@@ -270,6 +270,27 @@
   .habit-def{font-family:Georgia,serif;font-style:italic;font-size:1.15rem;color:var(--ink-soft);margin-top:10px;max-width:620px;}
   .habit-frameworks{margin-top:12px;font-size:.82rem;color:var(--ink-soft);max-width:640px;}
   .habit-frameworks b{color:var(--teal-dark);font-family:Arial,sans-serif;letter-spacing:.04em;}
+  .habit-frameworks{position:relative;}
+  .fw{color:var(--teal-dark);text-decoration:none;border-bottom:1px dotted var(--teal);cursor:pointer;}
+  .fw:hover{border-bottom-style:solid;color:var(--navy);}
+  .fw:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:2px;}
+  .fw-sep{color:var(--line);padding:0 2px;}
+  .fw-pop{
+    display:none;position:absolute;left:0;top:calc(100% + 10px);z-index:40;
+    width:min(380px,100%);padding:13px 15px;text-align:left;
+    background:var(--white);border:1px solid var(--line);border-left:3px solid var(--teal);
+    border-radius:0 4px 4px 0;box-shadow:0 8px 24px rgba(21,38,63,.14);
+    font-size:.84rem;line-height:1.55;color:var(--ink);
+  }
+  .fw-pop b{display:block;font-family:Georgia,serif;font-weight:normal;font-size:1rem;
+    color:var(--navy);letter-spacing:0;margin-bottom:5px;}
+  .fw-pop i{display:block;margin-top:9px;font-style:normal;font-size:.72rem;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);}
+  .fw-item.on .fw-pop{display:block;}
+  @media (prefers-reduced-motion:no-preference){
+    .fw-item.on .fw-pop{animation:fwIn .14s ease-out;}
+  }
+  @keyframes fwIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
   .habit-video{margin:30px 0 0;width:100%;}
   .video-slot{
     position:relative;width:100%;aspect-ratio:16/9;
@@ -1394,6 +1415,63 @@ const HABITS=[
  tRole:"Readily suggests new automations and tools. Students decide what to kill rather than keep, because adding tools without removing work just multiplies busywork, and the habit is doing more with the same hands by saying no first.",
  tAssess:"The cuts they made and the justification for each, not how many tools they added."},
 ];
+
+/* Where each named framework is explained. Key = the exact text as it appears in a habit's
+   frameworks line; d = the one-line gloss shown on hover or tap. */
+const FRAMEWORK_REFS={
+ "The Five Whys":{u:"https://en.wikipedia.org/wiki/Five_whys",s:"Wikipedia",d:"Ask why about five times in a row, each answer feeding the next question, until you reach the cause behind the symptom."},
+ "Question Formulation Technique":{u:"https://rightquestion.org/what-is-the-qft/",s:"Right Question Institute",d:"A classroom protocol where students generate their own questions from a prompt, then sort, sharpen and prioritise them."},
+ "First-principles decomposition":{u:"https://en.wikipedia.org/wiki/First_principle",s:"Wikipedia",d:"Break a problem down to the facts you know are true, then rebuild from there instead of reasoning by analogy."},
+ "The Duncker diagram":{u:"https://www.arxterra.com/mission-objective-and-duncker-diagrams/",s:"Arxterra",d:"Chart two routes from where you are to where you want to be: general ways to reach the goal, and ways to make not reaching it acceptable."},
+ "de Bono's Six Thinking Hats":{u:"https://en.wikipedia.org/wiki/Six_Thinking_Hats",s:"Wikipedia",d:"Six named modes - facts, feelings, caution, optimism, creativity, process - worn one at a time so a group thinks in parallel instead of in circles."},
+ "Janusian thinking":{u:"https://www.psychologytoday.com/us/blog/creative-explorations/201506/the-janusian-process-in-creativity",s:"Rothenberg, Psychology Today",d:"Hold two opposite ideas as true at the same time and work in the tension between them. Named for the Roman god who faced both ways."},
+ "Jobs-to-be-Done":{u:"https://hbr.org/2016/09/know-your-customers-jobs-to-be-done",s:"Christensen, HBR",d:"People don't buy a product, they hire it to do a job. Describe the job and the competition changes."},
+ "White-space gap analysis":{u:"https://en.wikipedia.org/wiki/Gap_analysis",s:"Wikipedia",d:"Compare what exists against what is needed, and treat the empty space between them as the opportunity."},
+ "The Kano model":{u:"https://en.wikipedia.org/wiki/Kano_model",s:"Wikipedia",d:"Sort features into must-haves, more-is-better, and delighters, because satisfaction does not scale the same way for each."},
+ "Design of Experiments (Taguchi, factorial)":{u:"https://en.wikipedia.org/wiki/Design_of_experiments",s:"Wikipedia",d:"Vary several factors at once on a planned grid, so a handful of runs tells you what a hundred one-at-a-time tests would."},
+ "Build-measure-learn":{u:"https://en.wikipedia.org/wiki/Lean_startup",s:"Wikipedia",d:"Ship the smallest thing that produces evidence, measure what happened, and let the result decide the next build."},
+ "The Cynefin framework":{u:"https://en.wikipedia.org/wiki/Cynefin_framework",s:"Wikipedia",d:"Sort the situation as clear, complicated, complex or chaotic first, because each kind rewards a different way of acting."},
+ "Assumption mapping":{u:"https://www.precoil.com/assumptions-mapping",s:"David Bland, Precoil",d:"List everything that must be true for the idea to work, plot each by importance and uncertainty, and test the top corner first."},
+ "Bounding the unknowns":{u:"https://en.wikipedia.org/wiki/Knightian_uncertainty",s:"Wikipedia",d:"Separate risk you can put numbers on from uncertainty you cannot, and stop treating the second like the first."},
+ "Scenario planning (two-axis method)":{u:"https://en.wikipedia.org/wiki/Scenario_planning",s:"Wikipedia",d:"Pick the two most uncertain forces, cross them into four futures, and check whether the plan survives all four."},
+ "Backcasting":{u:"https://en.wikipedia.org/wiki/Backcasting",s:"Wikipedia",d:"Start from the future you want and work backwards to the steps that would have had to happen."},
+ "Weak-signal scanning":{u:"https://en.wikipedia.org/wiki/Horizon_scanning",s:"Wikipedia",d:"Watch the edges for small, early, easy-to-dismiss changes, before they become trends everyone can see."},
+ "TRIZ (contradiction matrix, biomimicry)":{u:"https://en.wikipedia.org/wiki/TRIZ",s:"Wikipedia",d:"A patent-derived method: state the problem as a contradiction, then reach for the inventive principles that resolved that same contradiction elsewhere."},
+ "Morphological analysis (Zwicky box)":{u:"https://en.wikipedia.org/wiki/Morphological_analysis_(problem-solving)",s:"Wikipedia",d:"List the parameters of a design and every option for each, then work through combinations you would never have thought to try."},
+ "SCAMPER":{u:"https://en.wikipedia.org/wiki/SCAMPER",s:"Wikipedia",d:"Seven prompts - substitute, combine, adapt, modify, put to other use, eliminate, reverse - applied to something that already exists."},
+ "The Iceberg Model":{u:"https://ecochallenge.org/iceberg-model/",s:"Ecochallenge.org",d:"Under any event sit patterns, under patterns sit structures, and under structures sit mental models. Fixes at the top never hold."},
+ "Causal loop diagrams":{u:"https://en.wikipedia.org/wiki/Causal_loop_diagram",s:"Wikipedia",d:"Draw the variables and the arrows between them until the reinforcing and balancing loops driving the behaviour become visible."},
+ "Stock-and-flow (system dynamics)":{u:"https://en.wikipedia.org/wiki/Stock_and_flow",s:"Wikipedia",d:"Distinguish what accumulates from what moves. The level in the bathtub is not the rate of the tap."},
+ "Concept mapping (Novak)":{u:"https://en.wikipedia.org/wiki/Concept_map",s:"Wikipedia",d:"Put concepts in boxes and label every connecting line with the relationship, so the structure of your understanding is on the page."},
+ "The Zettelkasten method":{u:"https://en.wikipedia.org/wiki/Zettelkasten",s:"Wikipedia",d:"One idea per note, in your own words, each linked to the notes it speaks to, so the collection surfaces connections you did not plan."},
+ "Linked knowledge structures":{u:"https://en.wikipedia.org/wiki/Knowledge_graph",s:"Wikipedia",d:"Store what you know as things and the named relationships between them, so the links themselves are information you can follow."},
+ "The Futures Wheel":{u:"https://en.wikipedia.org/wiki/Futures_wheel",s:"Wikipedia",d:"Write the change in the middle, ring it with its direct consequences, then ring those with their consequences."},
+ "FMEA":{u:"https://en.wikipedia.org/wiki/Failure_mode_and_effects_analysis",s:"Wikipedia",d:"Walk through every way a design can fail and, for each one, what it would cause and how you would catch it."},
+ "Consequence scanning":{u:"https://doteveryone.org.uk/project/consequence-scanning/",s:"Doteveryone",d:"A team ritual before shipping: what are the intended consequences, what are the unintended ones, and which of them do we act on."},
+ "Milestone roadmapping & OKRs":{u:"https://en.wikipedia.org/wiki/Objectives_and_key_results",s:"Wikipedia",d:"Set an ambitious objective with a few measurable results, and place the milestones that would prove you are getting there."},
+ "Critical Path Method":{u:"https://en.wikipedia.org/wiki/Critical_path_method",s:"Wikipedia",d:"Find the longest chain of dependent tasks. That chain, not the busiest one, sets the finish date."},
+ "Wardley mapping":{u:"https://en.wikipedia.org/wiki/Wardley_map",s:"Wikipedia",d:"Chart your components by user need and by how evolved each one is, so you can see what to build, what to buy, and what to leave alone."},
+ "The pre-mortem (Klein)":{u:"https://hbr.org/2007/09/performing-a-project-premortem",s:"Gary Klein, HBR",d:"Imagine the project has already failed, then have everyone write down why. People voice as history the doubts they will not voice as prediction."},
+ "FMEA with risk priority numbers":{u:"https://en.wikipedia.org/wiki/Failure_mode_and_effects_analysis",s:"Wikipedia",d:"Score each failure mode for severity, likelihood and how easily it would be detected, then fix in the order the numbers give you."},
+ "Fault tree analysis":{u:"https://en.wikipedia.org/wiki/Fault_tree_analysis",s:"Wikipedia",d:"Start from the failure you refuse to allow and work downwards through the combinations of causes that could produce it."},
+ "The Pareto principle (80/20)":{u:"https://en.wikipedia.org/wiki/Pareto_principle",s:"Wikipedia",d:"Most of the effect usually comes from a small share of the causes. Find that share before spreading effort evenly."},
+ "Value stream mapping (Lean)":{u:"https://en.wikipedia.org/wiki/Value-stream_mapping",s:"Wikipedia",d:"Draw every step from request to delivery with its waiting time. The delay between the steps is usually the problem."},
+ "The value proposition canvas":{u:"https://www.strategyzer.com/library/the-value-proposition-canvas",s:"Strategyzer",d:"Line up what the customer is trying to do, and what gets in the way, against what your product actually relieves or creates."},
+ "Empathy mapping":{u:"https://www.nngroup.com/articles/empathy-mapping/",s:"Nielsen Norman Group",d:"Capture what one specific user says, thinks, does and feels on a single sheet, so the team argues about evidence rather than opinions."},
+ "Jobs-to-be-Done interviews":{u:"https://hbr.org/2016/09/know-your-customers-jobs-to-be-done",s:"Christensen, HBR",d:"Interview people about the moment they switched, tracing what pushed them off the old solution and what pulled them to the new one."},
+ "The lean validation loop & MVP":{u:"https://en.wikipedia.org/wiki/Minimum_viable_product",s:"Wikipedia",d:"Build the least you can that still tests the riskiest belief, and treat the result as the whole point of building it."},
+ "Theory of change":{u:"https://en.wikipedia.org/wiki/Theory_of_change",s:"Wikipedia",d:"Spell out the chain from activity to outcome to impact, including the assumption each link depends on."},
+ "Unit economics":{u:"https://a16z.com/16-startup-metrics/",s:"Andreessen Horowitz",d:"Work out what one customer or one unit costs and earns. A business that loses money per unit loses more of it at scale."},
+ "Stakeholder mapping (power/interest grid)":{u:"https://en.wikipedia.org/wiki/Stakeholder_analysis",s:"Wikipedia",d:"Plot everyone affected by their power and their interest, then decide who to involve, consult, inform, or simply watch."},
+ "Life-cycle assessment":{u:"https://en.wikipedia.org/wiki/Life-cycle_assessment",s:"Wikipedia",d:"Account for a product's impact across its whole life - materials, making, use, disposal - not just the part you designed."},
+ "The triple bottom line":{u:"https://en.wikipedia.org/wiki/Triple_bottom_line",s:"Wikipedia",d:"Judge the result against people and planet as well as profit."},
+ "Deliberate practice (Ericsson)":{u:"https://en.wikipedia.org/wiki/Practice_(learning_method)#Deliberate_practice",s:"Wikipedia",d:"Practice designed at the edge of what you can already do, with immediate feedback and repetition on the specific weakness."},
+ "Desirable difficulties (Bjork)":{u:"https://en.wikipedia.org/wiki/Desirable_difficulty",s:"Wikipedia",d:"Conditions that make learning feel harder and slower - spacing, testing, interleaving - are the ones that make it last."},
+ "After-action review":{u:"https://en.wikipedia.org/wiki/After-action_review",s:"Wikipedia",d:"Four questions straight after the event: what was supposed to happen, what did happen, why the difference, what changes next time."},
+ "Constraint-driven design":{u:"https://www.neuralconcept.com/post/what-are-constraints-in-engineering-overcoming-design-barriers",s:"Neural Concept",d:"Treat the limits - cost, weight, time, materials, regulation - as the generative input to the design rather than the obstacle to it."},
+ "TRIZ ideality":{u:"https://triz.org/ideality/",s:"Technical Innovation Center",d:"Push a design toward all benefit and no cost or harm. The ideal machine performs the function without existing."},
+ "Lean waste elimination (muda)":{u:"https://en.wikipedia.org/wiki/Muda_(Japanese_term)",s:"Wikipedia",d:"Hunt the seven wastes - overproduction, waiting, transport, over-processing, inventory, motion, defects - and take them out."},
+};
 
 const WORKFLOWS=[
 {name:"EM × AI Diagnostic",habits:"All 18 habits",
@@ -4217,7 +4295,8 @@ function openHabit(h){
   document.getElementById('hTag').style.background=c.color;
   document.getElementById('hTitle').textContent=h.name;
   document.getElementById('hDef').textContent=h.def;
-  document.getElementById('hFrameworks').innerHTML=h.frameworks?('<b>Frameworks</b> &nbsp;'+h.frameworks):'';
+  document.getElementById('hFrameworks').innerHTML=h.frameworks?('<b>Frameworks</b> &nbsp;'+frameworkLine(h.frameworks)):'';
+  fwHide();
   renderHabitVideo(h);
   const hf=document.getElementById('hField');
   disarmReveals(hf);
@@ -4314,6 +4393,39 @@ function buildSteps(h){
 }
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ---------- framework glosses ---------- */
+/* Each framework in a habit's frameworks line becomes a link to a plain explanation of it,
+   with a one-line gloss on hover. Touch has no hover, so there the first tap shows the
+   gloss and the second follows the link. */
+function frameworkLine(s){
+  return s.split(' \u00b7 ').map(t=>{
+    const r=FRAMEWORK_REFS[t.trim()], n=esc(t.trim());
+    if(!r) return n;
+    return '<span class="fw-item"><a class="fw" href="'+r.u+'" target="_blank" rel="noopener">'+n+'</a>'
+      +'<span class="fw-pop" role="tooltip"><b>'+n+'</b>'+esc(r.d)+'<i>'+esc(r.s)+' \u2197</i></span></span>';
+  }).join('<span class="fw-sep"> \u00b7 </span>');
+}
+let fwOpen=null;
+function fwShow(it){ if(fwOpen&&fwOpen!==it) fwOpen.classList.remove('on'); fwOpen=it; it.classList.add('on'); }
+function fwHide(){ if(fwOpen){ fwOpen.classList.remove('on'); fwOpen=null; } }
+const fwCanHover=window.matchMedia('(hover:hover)').matches;
+document.addEventListener('mouseover',e=>{
+  if(!fwCanHover) return;
+  const it=e.target.closest?e.target.closest('.fw-item'):null;
+  if(it) fwShow(it); else if(!e.target.closest||!e.target.closest('#hFrameworks')) fwHide();
+});
+document.addEventListener('focusin',e=>{
+  const it=e.target.closest?e.target.closest('.fw-item'):null;
+  if(it) fwShow(it); else fwHide();
+});
+document.addEventListener('click',e=>{
+  const it=e.target.closest?e.target.closest('.fw-item'):null;
+  if(!it){ fwHide(); return; }
+  if(fwCanHover||fwOpen===it) return;   /* let the link open */
+  e.preventDefault(); fwShow(it);
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') fwHide(); });
 
 function exampleHTML(h){
   const ex=EXTRAS[h.name];
