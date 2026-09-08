@@ -340,6 +340,11 @@
     font-family:Georgia,serif;font-size:1.04rem;color:var(--navy);margin-bottom:6px;
   }
   .disposition .disp-body{font-size:.92rem;line-height:1.6;color:var(--ink);}
+  .disp-more{
+    margin-left:8px;letter-spacing:.04em;color:var(--teal-dark);cursor:pointer;
+    text-transform:none;border-bottom:1px dotted var(--teal-dark);
+  }
+  .disp-more:hover{color:var(--navy);}
   .continue-row{display:flex;justify-content:flex-start;}
 
   /* prompts */
@@ -412,6 +417,31 @@
   .ex-lit a:hover{color:var(--navy);}
 
   /* references */
+
+  /* the disposition underneath */
+  .disp-blocks{margin-top:36px;display:grid;gap:22px;max-width:680px;}
+  .disp-block{
+    background:var(--white);border:1px solid var(--line);
+    border-left:3px solid var(--navy);border-radius:0 8px 8px 0;padding:22px 26px;
+  }
+  .disp-block h3{
+    font-family:Georgia,serif;font-weight:normal;font-size:1.2rem;color:var(--navy);margin-bottom:9px;
+  }
+  .disp-block p{font-size:.97rem;line-height:1.68;color:var(--ink);}
+  .disp-index{margin-top:52px;padding-top:30px;border-top:1px solid var(--line);}
+  .disp-index-lede{font-size:.95rem;color:var(--ink-soft);max-width:620px;margin-bottom:22px;}
+  .disp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+  .disp-card{
+    text-align:left;background:var(--white);border:1px solid var(--line);
+    border-radius:7px;padding:14px 16px;cursor:pointer;font-family:inherit;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .disp-card:hover{border-color:var(--teal);transform:translateY(-1px);}
+  .disp-card:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .disp-card .dc-habit{
+    font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:6px;
+  }
+  .disp-card .dc-obstacle{font-family:Georgia,serif;font-size:1.02rem;color:var(--navy);line-height:1.35;}
   .ref-list{margin-top:36px;display:grid;gap:14px;}
   .ref-card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:22px 24px;}
   .ref-card .ref-cite{font-size:.86rem;color:var(--navy);font-weight:bold;margin-bottom:6px;}
@@ -942,7 +972,51 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
     </div>
 
     <div class="center mt-40">
+      <button class="btn ghost small" onclick="go('disposition')">Why the frameworks are not enough</button>
       <button class="btn ghost small" onclick="go('refs')">The research behind all this</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE DISPOSITION UNDERNEATH ===================== -->
+<section class="view" id="disposition">
+  <div class="topbar">
+    <button class="brand" onclick="go('hero')">EM <b>&times;</b> AI</button>
+    <span class="crumb">The disposition underneath</span>
+  </div>
+  <div class="wrap section-pad">
+    <button class="back-link" onclick="go('picker')">&larr; Back to the habits</button>
+    <div class="eyebrow">The psychology under the 18 habits</div>
+    <h2 class="head serif">The disposition underneath</h2>
+    <p class="lede">Eighteen habits, fifty frameworks, and a gap between them that this guide should say out loud. A framework is a procedure you can perform once. A habit is what you do without deciding to. Running a Duncker diagram does not make you a contrarian thinker, and one after-action review does not make anyone persistent.</p>
+
+    <div class="disp-blocks">
+      <div class="disp-block">
+        <h3>The frameworks are scaffolding, not the building</h3>
+        <p>Every framework here exists because some disposition is hard to sustain unaided. The pre-mortem exists because optimism bias is real and asking people to predict failure does not work. Retrieval practice exists because rereading feels like learning and is not. Read that way, a framework is a prosthetic for a disposition you have not built yet - useful immediately, and still useful later, but not the same thing as having the habit. Nobody becomes curious by owning a list of questions.</p>
+      </div>
+      <div class="disp-block">
+        <h3>The obstacle is specific to each habit, and AI moves it the wrong way</h3>
+        <p>There is a pattern across all eighteen. Each habit has a particular cognitive obstacle standing in its way, and in nearly every case AI lowers the cost of doing exactly what the obstacle already wanted you to do. Confirmation bias meets a model tuned to agree. Need for closure meets an unlimited supply of confident answers. The illusion of explanatory depth meets fluent summaries. Subtraction neglect meets a system that proposes additions by default. This is the guide's argument about instruments and replacements, restated at the level of the person: the danger is not that AI does the work badly, it is that it does the biased move faster and more pleasantly than you would have done it alone.</p>
+      </div>
+      <div class="disp-block">
+        <h3>What actually forms a habit</h3>
+        <p>Dispositions move through repetition, in a specific context, with feedback, over time - not through reading. Two things reliably help. The first is attaching the practice to a cue rather than to an intention: not "I will be more skeptical" but "when I am about to accept an AI answer, I will ask what would make it wrong." A plan tied to a situation survives contact with a busy week; a resolution does not. The second is accepting that the practice which feels worst often teaches most - effortful retrieval, spaced returns, mixed problem types. If an exercise in this guide feels inefficient, that is frequently the exercise working.</p>
+      </div>
+      <div class="disp-block">
+        <h3>Which is why the teaching mode matters more than the prompts</h3>
+        <p>A prompt read once forms nothing. The Run it with students side of every habit is the only part of this guide that repeats - across a term, with feedback, with consequences attached - and repetition with feedback is the whole mechanism. If you take one thing from these pages into a course, take the assignment structure rather than the prompt. The prompt is a demonstration. The course is where a habit could actually form.</p>
+      </div>
+      <div class="disp-block">
+        <h3>A note on the psychology we are not using</h3>
+        <p>Some of the best-known ideas in this space have not held up, and a guide for faculty should not lean on them. Growth mindset interventions produce small effects that have replicated poorly at scale. Grit adds little to what conscientiousness already explains. Learning styles have been tested repeatedly and do not work. The ten-thousand-hour rule is a popularisation that Ericsson, whose research it came from, spent years disputing. Everything named on these pages was chosen because it is well established and because it earns its place - and where a framework has a known flaw, such as the rank reversals produced by multiplying risk priority numbers, this guide says so rather than passing it on.</p>
+      </div>
+    </div>
+
+    <div class="disp-index">
+      <div class="eyebrow">The obstacle behind each habit</div>
+      <p class="disp-index-lede">Each habit page carries this block at the foot of Step&nbsp;3, where it explains the anti-pattern above it. Open any habit to read it in place.</p>
+      <div class="disp-grid" id="dispIndex"></div>
     </div>
   </div>
 </section>
@@ -1146,7 +1220,7 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
 </section>
 
 <footer class="site">
-  <b>The EM × AI Field Guide</b> · Built on the KEEN Habits of Entrepreneurial Mindset · <a onclick="go('refs')" style="color:var(--teal);cursor:pointer;text-decoration:none;">Research basis</a> · <a onclick="go('tools')" style="color:var(--teal);cursor:pointer;text-decoration:none;">Use it live</a> · Works with ChatGPT, Claude, and Gemini · <a onclick="go('iflyHome')" style="color:var(--field);cursor:pointer;text-decoration:none;">case studies</a>
+  <b>The EM × AI Field Guide</b> · Built on the KEEN Habits of Entrepreneurial Mindset · <a onclick="go('disposition')" style="color:var(--teal);cursor:pointer;text-decoration:none;">The disposition underneath</a> &middot; <a onclick="go('refs')" style="color:var(--teal);cursor:pointer;text-decoration:none;">Research basis</a> · <a onclick="go('tools')" style="color:var(--teal);cursor:pointer;text-decoration:none;">Use it live</a> · Works with ChatGPT, Claude, and Gemini · <a onclick="go('iflyHome')" style="color:var(--field);cursor:pointer;text-decoration:none;">case studies</a>
 </footer>
 
 <script>
@@ -1746,6 +1820,7 @@ function go(id){
   if(id==='hero') drawConstellation();
   if(id==='map') buildMap();
   if(id==='fieldmap') initFieldMap();
+  if(id==='disposition') buildDispIndex();
   // kinetics: show the progress strip on working views, hide on hero/intro
   const strip=document.getElementById('progress');
   const showOn=['map','picker','habitlist','habit','workflows'];
@@ -4495,11 +4570,22 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') fwHide(); });
 
+/* The index on the disposition view, generated from HABITS so it cannot drift. */
+function buildDispIndex(){
+  const wrap=document.getElementById('dispIndex');
+  if(!wrap||wrap.dataset.built) return;
+  wrap.innerHTML=HABITS.map((h,i)=>h.dispLabel?
+    `<button class="disp-card" onclick="openHabit(HABITS[${i}])">
+      <div class="dc-habit">${esc(h.name)}</div>
+      <div class="dc-obstacle">${esc(h.dispLabel)}</div>
+    </button>`:'').join('');
+  wrap.dataset.built='1';
+}
 /* The psychology sitting under the anti-pattern: why you will do it anyway. */
 function dispositionHTML(h){
   if(!h.dispBody) return '';
   return `<div class="disposition">
-    <div class="disp-label">The disposition underneath</div>
+    <div class="disp-label">The disposition underneath <a class="disp-more" onclick="go('disposition')">what this is</a></div>
     <p class="disp-head">${esc(h.dispLabel)}</p>
     <p class="disp-body">${esc(h.dispBody)}</p>
   </div>`;
