@@ -757,9 +757,24 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
 #cpGraph{overflow-x:auto;}
 #cpGraph svg{width:100%;min-width:560px;height:auto;display:block;}
 /* habit-page case evidence */
-.hf-case{border-top:1px dashed var(--field-line);padding-top:18px;margin-top:18px;}
-.hf-case:first-child{border-top:none;padding-top:0;margin-top:0;}
-.hf-case-tag{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+.hf-lede{font-size:.9rem;color:var(--ink-soft);margin:6px 0 14px;}
+.hf-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
+.hf-card{background:var(--field-soft);border:1.5px solid var(--field-line);border-radius:8px;padding:12px 14px;
+  transition:border-color .2s;min-width:0;}
+.hf-card:hover{border-color:var(--field);}
+.hf-card summary{display:flex;align-items:flex-start;gap:10px;cursor:pointer;list-style:none;}
+.hf-card summary::-webkit-details-marker{display:none;}
+.hf-card summary::before{content:'+';flex:none;font-size:1.1rem;line-height:1.2;color:var(--field-deep);}
+.hf-card[open] summary::before{content:'\2212';}
+.hf-card summary:focus-visible{outline:3px solid var(--field);outline-offset:3px;border-radius:4px;}
+.hf-face{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.hf-face-tag{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.hf-teaser{font-size:.9rem;line-height:1.45;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.hf-card[open]{grid-column:1/-1;background:var(--white);}
+.hf-card[open] .hf-teaser{display:none;}
+.hf-body{padding-top:12px;margin-top:10px;border-top:1px dashed var(--field-line);}
+.hf-body p{font-size:.95rem;line-height:1.6;color:var(--ink);margin:0 0 8px;}
+.hf-card .clip-why{max-width:none;}
 .hf-context{font-size:.88rem;color:var(--ink-soft);font-style:italic;margin:0 0 8px;}
 .hf-quote{margin:10px 0;padding:8px 14px;border-left:3px solid var(--field-line);font-family:Georgia,serif;color:var(--navy);font-size:1rem;}
 .hf-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
@@ -4501,31 +4516,43 @@ function openHabit(h){
   const caseEvs=habitEvidence(h.name);
   const iflyStory=fx?(fx.story?`<b>${esc(fx.story.t)}.</b> ${esc(fx.story.b)}`:esc(fx.why)):'';
   const iflyConn=(fx&&fx.story&&fx.why)?`<p class="clip-why">${esc(fx.why)}</p>`:'';
-  const iflyPart=fx?`<div class="hf-case">
-    <div class="hf-case-tag">${fieldMark('iFLY')}<span class="cp-ev-note">illustrative pick from the interviews</span></div>
-    <p class="hf-context">${esc(IFLY_CONTEXT)}</p>
-    <p>${iflyStory}</p>
-    ${iflyConn}
-    ${clipCardHTML(fx.clip)}
-    <div class="hf-actions"><button class="btn ghost small" onclick="go('iflycase')">About this case →</button></div>
-  </div>`:'';
+  const teaser=s=>{const m=String(s||'').match(/^[\s\S]{30,}?[.!?](?=\s|$)/);return m?m[0]:String(s||'');};
+  const iflyPart=fx?`<details class="hf-card">
+    <summary><span class="hf-face">
+      <span class="hf-face-tag">${fieldMark('iFLY')}<span class="cp-ev-note">illustrative pick from the interviews</span></span>
+      <span class="hf-teaser">${esc(fx.story?fx.story.t:teaser(fx.why))}</span>
+    </span></summary>
+    <div class="hf-body">
+      <p class="hf-context">${esc(IFLY_CONTEXT)}</p>
+      <p>${iflyStory}</p>
+      ${iflyConn}
+      ${clipCardHTML(fx.clip)}
+      <div class="hf-actions"><button class="btn ghost small" onclick="go('iflycase')">About this case →</button></div>
+    </div>
+  </details>`:'';
   const casePart=caseEvs.map(e=>{
     const c=caseById(e.caseId);
-    return `<div class="hf-case">
-      <div class="hf-case-tag">${fieldMark(esc(c.name))}<span class="cp-ev-strength ${e.strength}">${e.strength==='direct'?'stated directly in the video':'strongly implied'}</span></div>
-      <p class="hf-context">${esc(c.context)}</p>
-      <p>${esc(e.story)}</p>
-      ${e.quote?`<blockquote class="hf-quote">“${esc(e.quote)}”</blockquote>`:''}
-      <p class="clip-why">${esc(e.conn)}</p>
-      <div class="hf-actions">
-        <button class="cp-watch" onclick="openCase('${e.caseId}',${e.t})">▶ Watch this moment · ${fmtT(e.t)}</button>
-        <button class="btn ghost small" onclick="openCase('${e.caseId}')">About this case →</button>
+    return `<details class="hf-card">
+      <summary><span class="hf-face">
+        <span class="hf-face-tag">${fieldMark(esc(c.name))}<span class="cp-ev-strength ${e.strength}">${e.strength==='direct'?'stated directly in the video':'strongly implied'}</span></span>
+        <span class="hf-teaser">${esc(teaser(e.story))}</span>
+      </span></summary>
+      <div class="hf-body">
+        <p class="hf-context">${esc(c.context)}</p>
+        <p>${esc(e.story)}</p>
+        ${e.quote?`<blockquote class="hf-quote">“${esc(e.quote)}”</blockquote>`:''}
+        <p class="clip-why">${esc(e.conn)}</p>
+        <div class="hf-actions">
+          <button class="cp-watch" onclick="openCase('${e.caseId}',${e.t})">▶ Watch this moment · ${fmtT(e.t)}</button>
+          <button class="btn ghost small" onclick="openCase('${e.caseId}')">About this case →</button>
+        </div>
       </div>
-    </div>`;
+    </details>`;
   }).join('');
   hf.innerHTML=(iflyPart||casePart)?`<div class="field-section">
     <div class="eyebrow">Seen in the field · from the case studies</div>
-    ${iflyPart}${casePart}
+    <p class="hf-lede">Open a card to read how this habit shows up in that case.</p>
+    <div class="hf-cards">${iflyPart}${casePart}</div>
   </div>`:'';
   document.getElementById('hBack').onclick=()=>openC(h.c);
   document.getElementById('backListBtn').onclick=()=>openC(h.c);
