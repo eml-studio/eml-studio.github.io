@@ -353,6 +353,31 @@
     margin-top:14px;font-family:Georgia,serif;font-size:1.08rem;color:var(--navy);
     border-top:1px dashed var(--line);padding-top:12px;
   }
+  .connect-q{font-family:Georgia,serif;font-size:1.25rem;color:var(--navy);margin:0 0 10px;}
+  .connect-row{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;}
+  .connect-input{flex:1 1 320px;border:1.5px solid var(--line);border-radius:8px;padding:11px 14px;font-size:1rem;font-family:inherit;color:var(--ink);background:var(--cream);}
+  .connect-input:focus{outline:none;border-color:var(--teal-dark);background:var(--white);}
+  .connect-hint{font-size:.86rem;color:var(--ink-soft);margin:8px 0 0;}
+  .connect-out{margin-top:18px;}
+  .connect-card{background:var(--cream-deep);border-radius:8px;padding:18px 22px;}
+  .connect-card .cc-title{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:6px;}
+  .connect-card .cc-move{font-family:Georgia,serif;font-size:1.15rem;color:var(--navy);margin:0 0 10px;}
+  .connect-card p{margin:0 0 10px;font-size:.97rem;line-height:1.6;}
+  .connect-card p:last-child{margin-bottom:0;}
+  .connect-card .cc-ask{font-family:Georgia,serif;color:var(--navy);}
+  .connect-card .cc-k{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-dark);margin-right:8px;}
+  .connect-card.weak{background:var(--warn-soft);}
+  .connect-card.weak .cc-title{color:var(--warn);}
+  .connect-prompt .p-lead{font-size:.92rem;color:var(--ink-soft);margin:0 0 10px;}
+  .connect-caveat{margin:16px 0 0;font-size:.86rem;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px;}
+  .connect-narrow{background:var(--warn-soft);border-left:4px solid var(--warn);border-radius:7px;padding:12px 15px;font-size:.92rem;}
+  .connect-wait{font-size:.92rem;color:var(--ink-soft);font-style:italic;padding:6px 0;}
+  .connect-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  .connect-chip{background:var(--white);border:1.5px solid var(--field-line);border-radius:99px;padding:6px 13px;font-size:.86rem;color:var(--ink);}
+  .connect-chip:hover{border-color:var(--field);}
+  .connect-alt{color:var(--teal-dark);cursor:pointer;border-bottom:1px dotted var(--teal-dark);}
+  .connect-retry{background:none;border:1.5px solid var(--warn);border-radius:6px;padding:4px 10px;font-size:.84rem;color:var(--warn);margin-left:6px;}
+  .connect-input:disabled,.btn:disabled{opacity:.6;cursor:default;}
   .step-card p.step-instrument{
     margin-top:9px;font-size:.94rem;line-height:1.55;color:var(--ink-soft);max-width:none;
   }
@@ -951,7 +976,7 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
     </div>
 
     <div id="hField"></div>
-    <p class="video-segue">You've seen why this habit matters and how AI can help build it. Here's how to put it to work, in four quick moves.</p>
+    <p class="video-segue">You've seen why this habit matters. Now connect it to something you teach, then put it to work.</p>
 
     <div class="steps" id="hSteps"></div>
     <div id="hRefs"></div>
@@ -1294,7 +1319,7 @@ const HABITS=[
  mGood:"Questions that expose what you don't know yet, each tied to a source you can actually go check, and one chain driven down to a cause. If it hands you a tidy overview instead, it defeated the purpose - ask again and forbid summary.",
  tSetup:"Give students a topic outside their expertise. Before AI is allowed to answer anything, students generate their own questions, sort them open from closed and prioritize. Only then do they ask the model for its list, and add or sharpen the questions they missed. They then verify three of the model's claims against primary sources - the actual paper, dataset or standard - and report one place it was wrong, vague or out of date. The verification is the assignment, not the map.",
  tRole:"Generates questions and maps unfamiliar territory faster than a student can alone. Students do the checking against real sources themselves, because the habit is the reflex to confirm before trusting, and that reflex dies the moment AI does the confirming too.",
- tAssess:"The rigour of the three verifications and the specific error they caught, not how thorough the initial map looked."},
+ tAssess:"The rigor of the three verifications and the specific error they caught, not how thorough the initial map looked."},
 {c:"curiosity",
  name:"Contrarian Thinking",
  def:"Explores alternative or disruptive views of accepted solutions.",
@@ -4495,8 +4520,10 @@ function renderHabitVideo(h){
   }
 }
 
+let currentHabit=null;
 function openHabit(h){
   currentH=h;
+  currentHabit=h;
   const isNew=!visited.has(h.name);
   visited.add(h.name);
   const c=CS[h.c];
@@ -4581,19 +4608,17 @@ function buildSteps(h){
   disarmReveals(wrap);
   wrap.innerHTML='';
   const steps=[
-    {label:'Step 1 · The move',body:`<p class="serif" style="font-size:1.15rem;color:var(--navy)">${h.move}</p>`+(h.instrument?`<p class="step-instrument">${esc(h.instrument)}</p>`:'')},
-    {label:'Step 2 · How AI helps build it',body:`<p>${h.fosters}</p>`},
-    {label:'Step 3 · The anti-pattern to guard against',warn:true,
-     body:`<p>${h.anti}</p><div class="tension serif">${h.tension}</div>${exampleHTML(h)}`},
-    {label:'Step 4 · Put it to work',body:promptHTML(h)+caseChipsHTML(h)}
+    {label:'Connect this habit to what you teach',body:connectHTML(h)},
+    {label:'Put it to work',body:promptHTML(h)+caseChipsHTML(h)}
   ];
   steps.forEach((s,i)=>{
     const card=document.createElement('div');
-    card.className='step-card'+(s.warn?' warn':'')+(i===0?' revealed':'');
+    card.className='step-card revealed'+(s.warn?' warn':'');
     card.id='step'+i;
     card.innerHTML=`<div class="step-label">${s.label}</div>${s.body}`;
     wrap.appendChild(card);
-    if(i<steps.length-1){
+    if(i>0) card.style.marginTop='18px';
+    if(false){
       const row=document.createElement('div');
       row.className='continue-row'+(i===0?'':' step-card');
       if(i>0){row.classList.add('continue-hidden');row.style.background='none';row.style.border='none';row.style.padding='0';}
@@ -4617,6 +4642,89 @@ function buildSteps(h){
 }
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ---------- connect this habit to what you teach ---------- */
+/* One field, one short response, answered by a model behind the connect service on
+   Railway (repo: EMxAI Field Guide Connect; it holds the key, this page is static). The
+   response is built from the habit's punchline and how AI helps, applied to the concept
+   the faculty member typed. Set the production address here after the service is deployed. */
+const CONNECT_ENDPOINT=(location.hostname==='localhost'||location.hostname==='127.0.0.1')
+  ?'http://localhost:8790/api/connect':'https://fieldguide-connect-production.up.railway.app/api/connect';
+const COURSE_WORDS=/^(intro(duction)?( to)? )?(fluids?( mechanics| dynamics)?|thermo(dynamics)?|statics|dynamics|heat transfer|circuits|calculus|physics|chemistry|biology|statistics|programming|mechanics|aerodynamics|controls|materials|design)( [i1-4]+)?$|\b[a-z]{2,4} ?\d{3}\b|\bcourse\b/i;
+let connectWarmed=false;
+let connectLastTopic='';
+function connectWarm(){
+  if(connectWarmed) return; connectWarmed=true;
+  fetch(CONNECT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({warm:true})}).catch(()=>{});
+}
+function connectHTML(h){
+  return `<p class="connect-q">What concept are you teaching?</p>
+  <div class="connect-row">
+    <input class="connect-input" id="connectTopic" type="text" maxlength="200" value="${esc(connectLastTopic)}" placeholder="e.g., the continuity equation for a control volume" onfocus="connectWarm()" onkeydown="if(event.key==='Enter')showConnection()">
+    <button class="btn small" id="connectBtn" onclick="showConnection()">Show the connection</button>
+  </div>
+  <p class="connect-hint">Be specific. Name the concept, such as "the continuity equation for a control volume", not a whole subject like Fluids or Thermo.</p>
+  <div class="connect-out" id="connectOut"></div>
+  <p class="connect-caveat">Some habits connect more naturally to a concept than others. If the connection is weak, the guide says so and suggests a more natural fit.</p>`;
+}
+function connectSwitch(i){
+  openHabit(HABITS[i]);
+  if(connectLastTopic) showConnection();
+}
+function connectFill(topic){
+  const i=document.getElementById('connectTopic'); if(!i) return;
+  i.value=topic; showConnection();
+}
+function connectCard(h,r){
+  if(r.status==='narrow'){
+    const chips=(r.examples||[]).map(x=>`<button type="button" class="connect-chip" onclick="connectFill(${JSON.stringify(x).replace(/"/g,'&quot;')})">${esc(x)}</button>`).join('');
+    return `<div class="connect-narrow"><b>${esc(r.connect)}</b>${chips?`<div class="connect-chips">${chips}</div>`:''}</div>`;
+  }
+  if(r.status==='weak'){
+    const better=(r.better||[]).map(n=>{const i=HABITS.findIndex(x=>x.name===n);return i>=0?`<a class="connect-alt" onclick="connectSwitch(${i})">${esc(n)}</a>`:esc(n);});
+    return `<div class="connect-card weak">
+      <div class="cc-title">${esc(h.name)} · ${esc(r.topic)} · a weaker connection</div>
+      <p>${esc(r.connect)}</p>
+      ${better.length?`<p><span class="cc-k">Try instead</span>${better.join(' or ')}</p>`:''}
+    </div>`;
+  }
+  return `<div class="connect-card">
+    <div class="cc-title">${esc(h.name)} · ${esc(r.topic)}</div>
+    <p class="cc-move">${esc(h.move)}</p>
+    <p>${esc(r.connect)}</p>
+    ${r.ask?`<p class="cc-ask"><span class="cc-k">Ask</span>“${esc(r.ask)}”</p>`:''}
+    ${r.notice?`<p><span class="cc-k">Students notice</span>${esc(r.notice)}</p>`:''}
+    ${r.ai?`<p><span class="cc-k">Where AI helps</span>${esc(r.ai)}</p>`:''}
+  </div>`;
+}
+let connectSeq=0;
+async function showConnection(){
+  const h=currentHabit; if(!h) return;
+  const out=document.getElementById('connectOut');
+  const btn=document.getElementById('connectBtn');
+  const topic=(document.getElementById('connectTopic').value||'').trim();
+  connectLastTopic=topic;
+  if(!topic){out.innerHTML='<div class="connect-narrow">Type the concept first, for example "the continuity equation for a control volume".</div>';return;}
+  if(COURSE_WORDS.test(topic)){
+    out.innerHTML=`<div class="connect-narrow"><b>That looks like a whole subject, not a concept.</b> Name the concept you are teaching this week, such as "the continuity equation for a control volume". One equation, one principle, or one skill is the right size.</div>`;return;
+  }
+  const seq=++connectSeq;
+  btn.disabled=true; btn.textContent='Working…';
+  out.innerHTML=`<div class="connect-wait">Working on ${esc(topic)}…</div>`;
+  try{
+    const res=await fetch(CONNECT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({habit:h.name,topic})});
+    const r=await res.json().catch(()=>({}));
+    if(seq!==connectSeq) return;
+    if(!res.ok||r.error) throw new Error(r.error||('HTTP '+res.status));
+    out.innerHTML=connectCard(h,r);
+  }catch(e){
+    if(seq!==connectSeq) return;
+    out.innerHTML=`<div class="connect-narrow">The guide could not get an answer just now. <button type="button" class="connect-retry" onclick="showConnection()">Try again</button></div>`;
+    console.warn('connect failed',e);
+  }finally{
+    if(seq===connectSeq){btn.disabled=false;btn.textContent='Show the connection';}
+  }
+}
 
 /* ---------- framework glosses ---------- */
 /* Each framework in a habit's frameworks line becomes a link to a plain explanation of it,
