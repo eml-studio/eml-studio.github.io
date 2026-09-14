@@ -759,20 +759,21 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
 /* habit-page case evidence */
 .hf-lede{font-size:.9rem;color:var(--ink-soft);margin:6px 0 14px;}
 .hf-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
-.hf-card{background:var(--field-soft);border:1.5px solid var(--field-line);border-radius:8px;padding:12px 14px;
-  transition:border-color .2s;min-width:0;}
-.hf-card:hover{border-color:var(--field);}
+.hf-card{background:var(--navy);color:var(--cream);border:none;border-radius:12px;padding:18px 20px;
+  transition:transform .15s;min-width:0;}
+.hf-card:not([open]):hover{transform:translateY(-2px);}
 .hf-card summary{display:flex;align-items:flex-start;gap:10px;cursor:pointer;list-style:none;}
 .hf-card summary::-webkit-details-marker{display:none;}
-.hf-card summary::before{content:'+';flex:none;font-size:1.1rem;line-height:1.2;color:var(--field-deep);}
+.hf-card summary::before{content:'+';flex:none;font-size:1.1rem;line-height:1.2;color:var(--field);}
 .hf-card[open] summary::before{content:'\2212';}
 .hf-card summary:focus-visible{outline:3px solid var(--field);outline-offset:3px;border-radius:4px;}
 .hf-face{display:flex;flex-direction:column;gap:6px;min-width:0;}
 .hf-face-tag{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.hf-teaser{font-size:.9rem;line-height:1.45;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.hf-card[open]{grid-column:1/-1;background:var(--white);}
+.hf-card .field-mark{color:var(--field);}
+.hf-teaser{font-family:Georgia,serif;font-size:1.02rem;line-height:1.4;color:var(--cream);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.hf-card[open]{grid-column:1/-1;}
 .hf-card[open] .hf-teaser{display:none;}
-.hf-body{padding-top:12px;margin-top:10px;border-top:1px dashed var(--field-line);}
+.hf-body{margin:14px -20px -18px;padding:16px 20px 18px;background:var(--white);color:var(--ink);border-radius:0 0 12px 12px;}
 .hf-body p{font-size:.95rem;line-height:1.6;color:var(--ink);margin:0 0 8px;}
 .hf-card .clip-why{max-width:none;}
 .hf-context{font-size:.88rem;color:var(--ink-soft);font-style:italic;margin:0 0 8px;}
