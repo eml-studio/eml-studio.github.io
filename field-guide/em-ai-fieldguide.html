@@ -4646,8 +4646,8 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g
 /* ---------- connect this habit to what you teach ---------- */
 /* One field, one short response, answered by a model behind the connect service on
    Railway (repo: EMxAI Field Guide Connect; it holds the key, this page is static). The
-   response is built from the habit's punchline and how AI helps, applied to the concept
-   the faculty member typed. Set the production address here after the service is deployed. */
+   response is written from the habit's definition and the concept the faculty member
+   typed; its headline is drawn from that paragraph, not from a fixed slogan. */
 const CONNECT_ENDPOINT=(location.hostname==='localhost'||location.hostname==='127.0.0.1')
   ?'http://localhost:8790/api/connect':'https://fieldguide-connect-production.up.railway.app/api/connect';
 const COURSE_WORDS=/^(intro(duction)?( to)? )?(fluids?( mechanics| dynamics)?|thermo(dynamics)?|statics|dynamics|heat transfer|circuits|calculus|physics|chemistry|biology|statistics|programming|mechanics|aerodynamics|controls|materials|design)( [i1-4]+)?$|\b[a-z]{2,4} ?\d{3}\b|\bcourse\b/i;
@@ -4690,7 +4690,7 @@ function connectCard(h,r){
   }
   return `<div class="connect-card">
     <div class="cc-title">${esc(h.name)} · ${esc(r.topic)}</div>
-    <p class="cc-move">${esc(h.move)}</p>
+    ${r.headline?`<p class="cc-move">${esc(r.headline)}</p>`:''}
     <p>${esc(r.connect)}</p>
     ${r.ask?`<p class="cc-ask"><span class="cc-k">Ask</span>“${esc(r.ask)}”</p>`:''}
     ${r.notice?`<p><span class="cc-k">Students notice</span>${esc(r.notice)}</p>`:''}
