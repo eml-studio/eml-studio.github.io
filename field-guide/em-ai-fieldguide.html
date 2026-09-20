@@ -1121,14 +1121,14 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
     <button class="back-link" onclick="go('hero')">← Back to the guide</button>
     <div class="eyebrow">From reading to running <span class="status-pill" id="mcpStatus"><span class="status-dot"></span><span id="mcpStatusText">checking server…</span></span></div>
     <h2 class="head serif">Use this guide live, inside your assistant</h2>
-    <p class="lede">Everything in this guide is also a live tool. Connect EMxAI Studio once and the habits, prompts, and workflows become available on demand inside Claude or ChatGPT, always current, nothing to copy. The server is public, read-only, and stores nothing.</p>
+    <p class="lede">Everything on these pages is also available inside Claude or ChatGPT. Connect the EMxAI Studio server once and the 18 habits, their prompts, and the six workflows are there when you ask for them, with nothing to copy. The server's field guide content is generated from this site, so what it says and what the pages say are the same. It is public, read-only, and stores nothing.</p>
 
     <div class="mcp-explain">
       <h3 class="serif">New to MCP? Here's the short version</h3>
-      <p>The Model Context Protocol is an open standard that lets an AI assistant connect to an outside server and pull in extra capabilities. Instead of pasting a long prompt every time, you connect this server once and the curated prompts appear inside the assistant, ready on demand.</p>
+      <p>The Model Context Protocol is an open standard that lets an AI assistant connect to an outside server and pull in extra material. Instead of pasting a prompt from this site every time, you connect the server once and can ask for any habit or workflow by name.</p>
       <div class="mcp-assure">
         <div class="mcp-assure-item"><span class="mcp-check">✓</span> Read-only and stateless. It only ever returns text, prompts and reference content.</div>
-        <div class="mcp-assure-item"><span class="mcp-check">✓</span> No login, no account, nothing to install beyond one config line.</div>
+        <div class="mcp-assure-item"><span class="mcp-check">✓</span> No login, no account, nothing to install. One address to paste.</div>
         <div class="mcp-assure-item"><span class="mcp-check">✓</span> Stores no data and cannot modify files, send messages, or act on your behalf.</div>
       </div>
     </div>
@@ -1136,29 +1136,22 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
     <div class="connect-grid">
       <div class="connect-card">
         <h3 class="serif">Connect in Claude</h3>
-        <p>Add this to your <code>claude_desktop_config.json</code>, then fully quit and reopen Claude. The prompts appear in the slash menu, type <code>/</code> to see them.</p>
-        <div class="code-box"><button class="copy-btn" data-copy="claude-config">Copy</button><pre id="claude-config">{
-  "mcpServers": {
-    "emxai-studio": {
-      "type": "http",
-      "url": "https://emxai-studio-mcp-production.up.railway.app/mcp"
-    }
-  }
-}</pre></div>
-        <p class="connect-hint">Then try <code>/em-list</code> to see the whole map, or <code>/em-diagnostic</code> to get routed.</p>
+        <p>In Claude on the web or the desktop app: Settings, then Connectors, then Add custom connector. Name it EMxAI Studio, paste the address below, and leave authentication off. In Claude Code, run <code>claude mcp add --transport http emxai-studio</code> followed by the same address.</p>
+        <div class="code-box"><button class="copy-btn" data-copy="claude-endpoint">Copy</button><pre id="claude-endpoint">https://emxai-studio-mcp-production-d85b.up.railway.app/mcp</pre></div>
+        <p class="connect-hint">Then ask for <code>em-start</code> with a task you are working on, or <code>em-list</code> to see the whole map.</p>
       </div>
       <div class="connect-card">
         <h3 class="serif">Connect in ChatGPT</h3>
-        <p>Go to Settings, then Connectors, then Add MCP Server. Paste the endpoint URL, choose No Auth, and confirm. The capabilities appear as tools the assistant calls when asked.</p>
-        <div class="code-box"><button class="copy-btn" data-copy="endpoint-url">Copy</button><pre id="endpoint-url">https://emxai-studio-mcp-production.up.railway.app/mcp</pre></div>
-        <p class="connect-hint">Then ask, for example, <em>use the em_habit tool for Systems Thinking</em>.</p>
+        <p>Go to Settings, then Connectors, then add a custom MCP server. Paste the address below, choose no authentication, and confirm. The tools appear when you ask for them by name.</p>
+        <div class="code-box"><button class="copy-btn" data-copy="endpoint-url">Copy</button><pre id="endpoint-url">https://emxai-studio-mcp-production-d85b.up.railway.app/mcp</pre></div>
+        <p class="connect-hint">Then ask, for example, <em>use the em_habit tool for Systems Thinking</em>, or <em>run em_start and I will describe my task</em>.</p>
       </div>
     </div>
 
     <div class="tools-catalog">
-      <div class="eyebrow">What you get · 13 capabilities</div>
-      <h3 class="serif catalog-h">The full toolset</h3>
-      <p class="catalog-lede">Every capability works on both platforms. In Claude it is a slash prompt with hyphens, in ChatGPT a tool with underscores. Both return identical content.</p>
+      <div class="eyebrow">What you get · <span id="capCount"></span> capabilities</div>
+      <h3 class="serif catalog-h">The toolset</h3>
+      <p class="catalog-lede">Every capability works on both platforms. In Claude it is a prompt with hyphens, in ChatGPT a tool with underscores. Both return the same text.</p>
 
       <h4 class="catalog-group">The EM × AI Field Guide · 5 access points</h4>
       <div id="catalogGuide" class="catalog-list"></div>
@@ -1168,7 +1161,7 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
     </div>
 
     <div class="tools-foot">
-      <p class="serif">The guide is the front door. The server is the same content, live where you work.</p>
+      <p class="serif">The guide is the front door. The server is the same content, where you work.</p>
       <button class="btn ghost small" onclick="go('hero')">Back to the guide</button>
     </div>
   </div>
@@ -4768,7 +4761,7 @@ function promptHTML(h){
     <div class="frame-grid frame-after">
       <div class="frame-row"><span class="frame-k">What good output looks like</span><span class="frame-v">${esc(h.mGood)}</span></div>
     </div>
-    <div class="live-hook">Connected EMxAI Studio? Pull the always-current version with <code>/em-coach</code> in Claude, or ask ChatGPT to <em>use the em_coach tool for ${esc(h.name)}</em>. <a onclick="go('tools')">Set it up</a></div>
+    <div class="live-hook">Connected EMxAI Studio? Ask for <code>em-prompt</code> in Claude, or ask ChatGPT to <em>use the em_prompt tool for ${esc(h.name)}</em>, and this prompt comes to you. <a onclick="go('tools')">Set it up</a></div>
   </div>
   <div class="prompt-pane" id="pane-teach">
     <div class="mode-banner teach-banner"><b>A strategy you run.</b> Don't paste this into a chatbot. It's an activity you design and lead, in class, as an assignment, or both. The blueprint below is a starting point. Adapt the specifics to your course.</div>
@@ -5169,22 +5162,25 @@ buildRefs();
 buildIflyHome();
 
 /* =============== TOOLS TAB =============== */
+/* The server's field guide tools are generated from this page (scripts/build_em_content.py in
+   the emxai-studio-mcp repo). If a tool is renamed there, rename it here and in the habit-page hook. */
+const STUDIO_URL="https://emxai-studio-mcp-production-d85b.up.railway.app";
 const CAP_GUIDE=[
-  {c:"em-list",g:"em_list",d:"The full map — 3 families, all 18 habits with their one-line tensions, and the 7 workflows. Start here.",p:"—"},
-  {c:"em-habit",g:"em_habit",d:"Complete content for one habit: family, definition, frameworks, the AI-era move, how AI helps, the anti-pattern, the tension, and both modes.",p:"name"},
-  {c:"em-coach",g:"em_coach",d:"Just the Run-it-yourself paste-ready prompt for one habit.",p:"habit"},
-  {c:"em-workflow",g:"em_workflow",d:"A full multi-habit workflow: orchestration prompt, student blueprint, and build-an-activity meta-prompt.",p:"name"},
-  {c:"em-diagnostic",g:"em_diagnostic",d:"The routing diagnostic. Assesses your AI practice across all 3 Cs and points you to the right habit or workflow.",p:"—"}
+  {c:"em-list",g:"em_list",d:"The map: three families, all 18 habits with a tagline and the disposition underneath each, and the six workflows. Start here.",p:"—"},
+  {c:"em-habit",g:"em_habit",d:"One habit's full page: what the research says, the disposition underneath, the frameworks with links, both prompts, and the references.",p:"name"},
+  {c:"em-prompt",g:"em_prompt",d:"Just the Run-it-yourself prompt for one habit, with what it does, when to use it, and what good output looks like.",p:"habit"},
+  {c:"em-workflow",g:"em_workflow",d:"One workflow: its three habits, the steps with their frameworks, what stays yours, the one-question-at-a-time prompt, the student setup, and a prompt to build the activity.",p:"name"},
+  {c:"em-start",g:"em_start",d:"Where to start. Describe the task you are working on and it points you to one workflow, or to one habit if that is all the task needs.",p:"—"}
 ];
 const CAP_PROMPTS=[
-  {c:"aias-advisor",g:"aias_advisor",d:"AI Assessment Scale Advisor. Redesigns homework across a 5-level AIAS framework with student instructions, rubrics, and integrity safeguards.",p:"subject, level"},
-  {c:"eml-architect",g:"eml_architect",d:"EML Architect. Converts a traditional textbook problem into an Entrepreneurial Mindset Learning task while preserving technical rigor.",p:"em_habits, problems"},
-  {c:"interactive-builder-planning",g:"interactive_builder_planning",d:"Phase 1. Guides faculty through a planning blueprint for a privacy-safe, single-session educational web app.",p:"—"},
-  {c:"interactive-builder-coding",g:"interactive_builder_coding",d:"Phase 2. Turns that blueprint into a working single-file HTML prototype.",p:"—"},
-  {c:"autonomy-coach",g:"autonomy_coach",d:"Course Autonomy Coach. Embeds student autonomy using 20 proven strategies, with ready-to-use syllabus and rubric language.",p:"course_subject, course_level"},
-  {c:"engagement-opener",g:"engagement_opener",d:"Joyful Opener Designer. Builds a 3-minute classroom micro-experiment that sparks curiosity through cognitive dissonance or surprise.",p:"course_title, concept"},
-  {c:"passion-connector",g:"passion_connector",d:"Passion Connector. Designs a 5-minute segment linking the instructor's personal passion to course content.",p:"passion, course"},
-  {c:"prompt-optimizer",g:"prompt_optimizer",d:"Prompt Optimizer. Rewrites a rough prompt into a precise, production-ready prompt tuned for Claude, Gemini, or GPT.",p:"target_model, raw_prompt, …"}
+  {c:"aias-advisor",g:"aias_advisor",d:"AI Assessment Scale Advisor. Redesigns an assignment across the five AIAS levels with student instructions, a rubric, and integrity safeguards. Practices Risk Awareness.",p:"subject, level"},
+  {c:"eml-architect",g:"eml_architect",d:"EML Architect. Turns a textbook problem into an entrepreneurial-mindset task while keeping its technical rigor.",p:"em_habits, problems"},
+  {c:"interactive-builder-planning",g:"interactive_builder_planning",d:"Phase 1. Interviews you about the people who would use a small, privacy-safe web tool and turns the answers into a blueprint. Practices Customer-Centric Thinking.",p:"—"},
+  {c:"interactive-builder-coding",g:"interactive_builder_coding",d:"Phase 2. Builds that blueprint into a working single-file prototype using nothing beyond a browser. Practices Resourcefulness.",p:"—"},
+  {c:"autonomy-coach",g:"autonomy_coach",d:"Course Autonomy Coach. Fix the goal, free the path: bounded student choice with ready-to-use syllabus and rubric language. Practices Strategic Thinking, and Persistence where revision tokens are used.",p:"course_subject, course_level"},
+  {c:"engagement-opener",g:"engagement_opener",d:"Joyful Opener Designer. A three-minute classroom micro-experiment built on a hook question and a testable claim. Practices Inquisitiveness and Experimentation.",p:"course_title, concept"},
+  {c:"passion-connector",g:"passion_connector",d:"Passion Connector. A five-minute segment linking something you care about to the course content. Practices Creativity.",p:"passion, course"},
+  {c:"prompt-optimizer",g:"prompt_optimizer",d:"Prompt Optimizer. Rewrites a rough prompt into a precise one for Claude, Gemini, or GPT.",p:"target_model, raw_prompt, …"}
 ];
 function capRow(x){
   return `<div class="cap-row"><div class="cap-main">
@@ -5195,6 +5191,8 @@ function capRow(x){
 function buildTools(){
   document.getElementById('catalogGuide').innerHTML=CAP_GUIDE.map(capRow).join('');
   document.getElementById('catalogPrompts').innerHTML=CAP_PROMPTS.map(capRow).join('');
+  document.getElementById('capCount').textContent=CAP_GUIDE.length+CAP_PROMPTS.length;
+  document.querySelectorAll('#claude-endpoint,#endpoint-url').forEach(el=>el.textContent=STUDIO_URL+'/mcp');
   // copy buttons in the connect cards
   document.querySelectorAll('#tools .copy-btn').forEach(b=>{
     b.onclick=()=>{
@@ -5215,10 +5213,10 @@ function checkMcpHealth(){
   const pill=document.getElementById('mcpStatus');
   const txt=document.getElementById('mcpStatusText');
   if(!pill) return;
-  fetch('https://emxai-studio-mcp-production.up.railway.app/',{method:'GET',mode:'cors'})
+  fetch(STUDIO_URL+'/',{method:'GET',mode:'cors'})
     .then(r=>r.ok?r.json().catch(()=>({})):Promise.reject())
-    .then(()=>{ pill.classList.add('live');pill.classList.remove('down');txt.textContent='server live · 13 tools'; })
-    .catch(()=>{ pill.classList.add('down');pill.classList.remove('live');txt.textContent='connect to use'; });
+    .then(j=>{ pill.classList.add('live');pill.classList.remove('down');txt.textContent='server live'+(j&&j.tools?' · '+j.tools.length+' tools':''); })
+    .catch(()=>{ pill.classList.add('down');pill.classList.remove('live');txt.textContent='server not reachable right now'; });
 }
 checkMcpHealth();
 buildTools();
