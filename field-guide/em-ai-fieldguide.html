@@ -503,6 +503,20 @@
     margin-top:10px;font-size:.85rem;color:var(--warn);background:var(--warn-soft);
     border-radius:5px;padding:8px 12px;
   }
+  details.ref-group{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:16px 20px;}
+  details.ref-group summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  details.ref-group summary::-webkit-details-marker{display:none;}
+  details.ref-group summary::before{content:'+';font-size:1.1rem;line-height:1;color:var(--teal-dark);}
+  details.ref-group[open] summary::before{content:'\2212';}
+  details.ref-group summary:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:4px;}
+  .ref-group-h{font-family:Georgia,serif;font-size:1.08rem;color:var(--navy);}
+  .ref-group-n{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-dark);}
+  .ref-group-lede{font-size:.93rem;color:var(--ink-soft);margin:10px 0 0;}
+  .ref-cards{display:grid;gap:10px;margin-top:14px;}
+  details.ref-group .ref-card{padding:16px 18px;}
+  .ref-card .ref-cite a{color:var(--navy);text-decoration:none;border-bottom:1px dotted var(--teal);}
+  .ref-card .ref-cite a:hover{border-bottom-style:solid;color:var(--teal-dark);}
+  .ref-section-h{margin:28px 0 0;font-weight:normal;font-size:1.3rem;color:var(--navy);}
   .ref-note{
     margin-top:30px;background:var(--cream-deep);border:1px solid var(--line);
     border-radius:8px;padding:22px 24px;font-size:.93rem;color:var(--ink-soft);
@@ -1101,12 +1115,12 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
   </div>
   <div class="wrap section-pad">
     <button class="back-link" onclick="go('picker')">← Back to the habits</button>
-    <div class="eyebrow">The evidence behind the anti-patterns</div>
+    <div class="eyebrow">What the guide rests on</div>
     <h2 class="head serif">Research basis</h2>
-    <p class="lede">The 18 habits come from the KEEN Habits of Entrepreneurial Mindset. The claims that need evidence are the anti-patterns, the specific ways careless AI use erodes each habit. These studies are the anchors.</p>
+    <p class="lede">The 18 habits are the KEEN Habits of Entrepreneurial Mindset. Two kinds of evidence sit behind this guide. The first is about each habit itself: why it is hard, whether it can be taught, and how well the frameworks on its page hold up. Those are the references from the "What the research says" section of every habit page, collected here. The second is about AI and thinking: the studies behind the guide's claim that when AI does the thinking for you, the habit stops being practiced.</p>
     <div class="ref-list" id="refList"></div>
     <div class="ref-note">
-      <b>A note on coverage.</b> Seven habits (Opportunity Seeking, Future-Minded, Systems Thinking, Customer-Centric Thinking, Impact Thinking, Socially Minded, and Resourcefulness) have no study matching their specific anti-pattern. The offloading and homogenization mechanisms above plausibly generalize to them, but habit-specific evidence is an open research gap. We cite where the evidence is and stay quiet where it isn't.
+      <b>How to read these.</b> The studies on AI and thinking are recent; several are preprints or working papers, most measure short-term effects in one setting, and the notes say so where it matters. The habit references were checked one by one on 20 September 2026: every link opens the work cited. Thirteen entries are books or book chapters and have no link.
     </div>
   </div>
 </section>
@@ -1772,38 +1786,48 @@ const RESEARCH={
 };
 
 const REFS=[
-{cite:"Kruger, J. & Dunning, D. (1999). Unskilled and unaware of it. Journal of Personality and Social Psychology, 77(6).",
- find:"Low skill in a domain impairs the ability to evaluate quality in that domain. The citation behind the master principle. You can't judge work in a domain you haven't mastered, so polished output reads as competent when it isn't.",
- habits:"The master principle"},
-{cite:"Risko, E.F. & Gilbert, S.J. (2016). Cognitive Offloading. Trends in Cognitive Sciences, 20(9).",
- find:"The foundational framework for offloading thinking onto external tools. Our metacognitive judgments about when offloading is safe are often wrong, which is exactly when habits quietly stop being practiced.",
+{cite:"Kruger, J., & Dunning, D. (1999). Unskilled and unaware of it: How difficulties in recognizing one's own incompetence lead to inflated self-assessments. Journal of Personality and Social Psychology, 77(6), 1121–1134.",
+ url:"https://doi.org/10.1037/0022-3514.77.6.1121",
+ find:"When we lack skill in an area, we are also poor at judging quality in that area. That is why polished AI output can look competent to someone who cannot yet check it.",
+ habits:"All habits"},
+{cite:"Risko, E. F., & Gilbert, S. J. (2016). Cognitive offloading. Trends in Cognitive Sciences, 20(9), 676–688.",
+ url:"https://doi.org/10.1016/j.tics.2016.07.002",
+ find:"The basic account of how we hand thinking off to tools and notes. Our sense of when that is safe is often wrong, which is exactly when a habit quietly stops being practiced.",
  habits:"Inquisitiveness · Knowledge Synthesis"},
-{cite:"Lee, H.P. et al. (2025). The Impact of Generative AI on Critical Thinking. CHI 2025. Microsoft Research and Carnegie Mellon.",
- find:"Survey of 319 knowledge workers with 936 real examples of AI use. Confidence in the AI predicted less critical thinking effort. Confidence in one's own expertise predicted more.",
+{cite:"Lee, H.-P., Sarkar, A., Tankelevitch, L., Drosos, I., Rintel, S., Banks, R., & Wilson, N. (2025). The impact of generative AI on critical thinking: Self-reported reductions in cognitive effort and confidence effects from a survey of knowledge workers. CHI 2025.",
+ url:"https://doi.org/10.1145/3706598.3713778",
+ find:"A survey of 319 knowledge workers with 936 real examples of AI use. The more people trusted the AI, the less critical thinking they reported doing. The more they trusted their own expertise, the more.",
  habits:"Contrarian Thinking · Implications Thinking · Risk Awareness"},
-{cite:"Kosmyna, N. et al. (2025). Your Brain on ChatGPT. MIT Media Lab, arXiv 2506.08872.",
- find:"EEG essay-writing study across LLM, search, and brain-only groups. LLM users showed the weakest neural connectivity and the weakest memory and sense of ownership over their own text.",
+{cite:"Kosmyna, N., et al. (2025). Your brain on ChatGPT: Accumulation of cognitive debt when using an AI assistant for essay writing task. arXiv:2506.08872.",
+ url:"https://arxiv.org/abs/2506.08872",
+ find:"An EEG study of essay writing with an AI assistant, a search engine, or neither. The AI group showed the weakest brain connectivity, and remembered and felt least ownership of their own text.",
  habits:"Confronting Ambiguity · Knowledge Synthesis",
- caveat:"Preprint with a small sample and a published methodological critique. Cite as suggestive, not settled."},
-{cite:"Doshi, A.R. & Hauser, O.P. (2024). Generative AI enhances individual creativity but reduces the collective diversity of novel content. Science Advances, 10(28).",
- find:"AI ideas made individual stories more creative, especially for less creative writers, while making the pool of stories measurably more similar to each other. Regression to the mean, quantified.",
+ caveat:"A preprint with a small sample and a published critique of its methods. Suggestive, not settled."},
+{cite:"Doshi, A. R., & Hauser, O. P. (2024). Generative AI enhances individual creativity but reduces the collective diversity of novel content. Science Advances, 10(28).",
+ url:"https://doi.org/10.1126/sciadv.adn5290",
+ find:"AI suggestions made individual short stories more creative, especially for less creative writers, while making the whole set of stories more alike.",
  habits:"Creativity"},
-{cite:"Bastani, H. et al. (2024). Generative AI Can Harm Learning. The Wharton School.",
- find:"Nearly 1,000 students. Unrestricted GPT lifted practice scores 48 percent, then those students scored 17 percent worse than controls once it was removed. A tutor version with guardrails removed the harm. The empirical case for Teach-it mode.",
- habits:"Persistence · the Teach-it design"},
-{cite:"Dell'Acqua, F. et al. (2023). Navigating the Jagged Technological Frontier. Harvard Business School working paper, with BCG.",
- find:"758 consultants. Inside AI's frontier, quality rose about 40 percent. Outside it, AI users did worse, trusting the tool precisely where it was weakest. The variability of ideas also shrank.",
+{cite:"Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., & Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. Proceedings of the National Academy of Sciences, 122(26).",
+ url:"https://doi.org/10.1073/pnas.2422633122",
+ find:"Nearly a thousand high-school students. Unrestricted access to GPT-4 raised practice scores by 48 percent; when it was taken away, those students scored 17 percent worse than students who never had it. A tutor version with guardrails removed the harm. This is the case for the way the Run-it-with-students activities are built.",
+ habits:"Persistence · Run it with students"},
+{cite:"Dell'Acqua, F., McFowland, E., Mollick, E., Lifshitz-Assaf, H., Kellogg, K., Rajendran, S., Krayer, L., Candelon, F., & Lakhani, K. R. (2023). Navigating the jagged technological frontier: Field experimental evidence of the effects of AI on knowledge worker productivity and quality. Harvard Business School Working Paper 24-013.",
+ url:"https://doi.org/10.2139/ssrn.4573321",
+ find:"758 consultants. On tasks within AI's reach, quality rose by about 40 percent. On tasks just outside it, people using AI did worse, trusting the tool exactly where it was weakest. The range of ideas also narrowed.",
  habits:"Experimentation · Strategic Thinking · Value Awareness"},
-{cite:"Gerlich, M. (2025). AI Tools in Society. Societies, 15(1).",
- find:"666 participants. Frequent AI use correlated with lower critical thinking, mediated by cognitive offloading, strongest among younger users.",
+{cite:"Gerlich, M. (2025). AI tools in society: Impacts on cognitive offloading and the future of critical thinking. Societies, 15(1), 6.",
+ url:"https://doi.org/10.3390/soc15010006",
+ find:"666 participants. Heavier AI use went with lower critical thinking scores, explained by offloading, and the pattern was strongest among younger users.",
  habits:"Inquisitiveness · Confronting Ambiguity",
- caveat:"Correlational and self-report. Shows association, not causation."},
-{cite:"Bjork, R.A. (1994). Memory and metamemory considerations in the training of human beings. In Metcalfe & Shimamura, Memory and Metamemory.",
- find:"Desirable difficulties. Learning that feels harder in the moment produces more durable skill, which is why frictionless AI output can undermine habit formation.",
- habits:"Experimentation · the assessment philosophy"},
-{cite:"Slamecka, N.J. & Graf, P. (1978). The generation effect. Journal of Experimental Psychology: Human Learning and Memory, 4(6).",
- find:"Information you generate yourself is retained far better than information you read. The reason every prompt here extracts thinking instead of delivering it.",
- habits:"Persistence · the Teach-it design"}
+ caveat:"Correlational and self-report. It shows an association, not a cause."},
+{cite:"Bjork, R. A. (1994). Memory and metamemory considerations in the training of human beings. In J. Metcalfe & A. Shimamura (Eds.), Metacognition: Knowing about knowing (pp. 185–205). MIT Press.",
+ url:"https://bjorklab.psych.ucla.edu/wp-content/uploads/sites/13/2016/07/RBjork_1994a.pdf",
+ find:"Desirable difficulties. Learning that feels harder in the moment produces skill that lasts, which is why effortless AI output can work against forming a habit.",
+ habits:"Experimentation · Persistence"},
+{cite:"Slamecka, N. J., & Graf, P. (1978). The generation effect: Delineation of a phenomenon. Journal of Experimental Psychology: Human Learning and Memory, 4(6), 592–604.",
+ url:"https://doi.org/10.1037/0278-7393.4.6.592",
+ find:"We remember what we produce ourselves far better than what we read. It is why the prompts in this guide ask you to think first and let AI respond.",
+ habits:"Persistence · Run it with students"}
 ];
 
 const WFPROMPTS={"Where to start": {"pm": "You are helping me find where to start in the EM × AI Field Guide. Ask one question at a time and wait for my answer. Do not lecture and do not assess me. The aim is to match the task I have to one place to begin.\n\nStart by asking me what I am working on right now, in a sentence or two, and where it stands: stuck, about to be decided, or ready to try.\n\nThen ask two or three follow-up questions to work out which of these fits the task best:\n\nUnderstand the problem first, when a problem keeps coming back, a brief is vague, or I am about to fix something I do not fully understand. Find the need worth serving, when I am deciding what to build, teach or research next. Widen the options, when I have one idea and I am about to defend it. Check the consequences, when a decision is close and it is still cheap to look. Plan under uncertainty, when I have to commit to a path without knowing how things will turn out. Try it small and learn, when an idea is ready to test, or an attempt has failed and I am deciding what to do next.\n\nIf one fits, name it and say why in a sentence. If the task really calls for one habit rather than a whole workflow, name the habit instead. Choose by what the task asks for, using these descriptions of what each habit looks like in a person, and not by what I seem weak at:\n\nCuriosity: Inquisitiveness, staying curious beyond the first answer. Contrarian Thinking, giving accepted ideas a fair challenge. Opportunity Seeking, noticing needs that deserve a better answer. Experimentation, welcoming results that change your mind. Confronting Ambiguity, taking a careful step without every answer. Future-Minded, making room for a different tomorrow. Connections: Creativity, finding new possibilities in unfamiliar connections. Systems Thinking, asking what keeps bringing it back. Knowledge Synthesis, building an understanding you can explain. Implications Thinking, following a decision beyond its first effect. Strategic Thinking, choosing steps that serve a larger purpose. Risk Awareness, making room for what could go wrong. Creating Value: Value Awareness, putting effort where it matters to others. Customer-Centric Thinking, letting people change your understanding. Impact Thinking, checking whether benefits can reach further. Socially Minded, including those who live with the consequences. Persistence, treating being stuck as information. Resourcefulness, looking again at what is already available.\n\nAsk me whether the match sounds right. If it does not, ask what I would change about it and try once more.\n\nClose by naming the one place to start, the first step there, and what I should bring to it: the problem, the decision, the idea, or the result. Do not send me to more than one place."}, "Understand the problem first": {"pm": "You are helping me understand a problem before I try to fix it. Work through three steps in order. Ask one question at a time and wait for my answer. Do not offer a fix at any point; if I ask for one, remind me that we are still understanding the problem.\n\nStart by asking me to describe the problem and how many times it has come back.\n\nStep 1, ask before you answer. Ask me to write down every question I have about the problem without answering any of them (the Question Formulation Technique). When I have my list, help me sort the open questions from the closed ones and pick the two or three worth chasing. Then take the one I say matters most and run the Five Whys with me: ask why, wait for my answer, and ask why again, five times or until we reach something I could actually change. Add questions of your own only after mine are on the table, and mark which of mine they sharpen.\n\nStep 2, find what keeps bringing it back. Walk me down the Iceberg Model: the event I am seeing, the pattern over time, the structure producing that pattern, and the beliefs holding that structure in place. Then draft a causal loop diagram in words: the variables, whether each link moves the same way or the opposite way, and whether each loop reinforces the problem or balances it. Ask me whether each loop matches what I have actually watched happen, and drop the ones that do not.\n\nStep 3, put it together so I can explain it. Build a concept map of what we found, with a linking phrase on every line that says how one thing bears on another. Then ask me to explain the map back to you in my own words without looking at it, and tell me which connections I left out.\n\nClose by naming the one question I should go find the answer to, the loop I should watch, and the connection I could not explain yet. Do not summarize the problem for me. The explanation is mine to give."}, "Find the need worth serving": {"pm": "You are helping me find a need worth serving before I commit to building, teaching or researching something. Work through three steps in order. Ask one question at a time and wait for my answer. Do not invent what people want; if you are tempted to guess, ask me to go and find out instead.\n\nStart by asking me what I am considering doing and who I think it is for.\n\nStep 1, let people show you. Draft the five questions I should ask one real person, built around the last time they faced this situation and what they were trying to get done, in the style of a Jobs-to-be-Done interview. For each question, say what answer would mean I should change course. Do not play the person or predict their answers. Then ask me to go and hold the conversation, and to watch them do the task if I can. When I come back with what I heard, help me sort it into an empathy map: what they said, did and seemed to feel, and what surprised me.\n\nStep 2, find the gap. From what I heard, list what people already use for this job and where the job still gets done badly. Point at the specific badly-done job rather than naming a market (white-space gap analysis). Then sort the gaps with the Kano model: which are basic expectations, which would be a real improvement, and which would delight someone who never thought to ask. Tell me which gap looks least crowded and why it has been overlooked.\n\nStep 3, judge the value from their side. Lay out what the person is trying to get done, what gets in their way and what they would gain, against what my work would actually relieve or create (the value proposition canvas). Show me where the two halves do not meet. Then ask me which single improvement the person would notice most, and whether a smaller change than the one I planned would serve them better.\n\nClose by naming the one need we found, in the person's words rather than mine, the assumption I still have to check with them, and what I decided not to build. The choice of who to serve is mine."}, "Widen the options": {"pm": "You are helping me widen my options before I commit to the idea I already have. Work through three steps in order. Ask one question at a time and wait for my answer. Do not tell me which option to choose.\n\nStart by asking me to describe my current idea and what it is meant to achieve.\n\nStep 1, branch before you defend. Help me restate what the design has to do so that it names no solution. Then build a Duncker diagram: branch out every general way to achieve that, including the branch that makes achieving it unnecessary, and place my current idea on it. Then put on the Black Hat: make the strongest honest case that my branch is wrong, without balancing it, and name the one assumption that, if false, breaks it. Ask me whether that objection holds up, and let me keep my original choice if it does.\n\nStep 2, borrow from somewhere else. Help me state the problem as a contradiction: what I am trying to improve and what gets worse as a direct result. Show me how two or three unrelated fields, including a living system, resolve that same contradiction, and describe the mechanism each one uses rather than the resemblance. Then build a small morphological box: the key parameters of my design down one side, the options for each across, with the borrowed mechanisms included, and point at two combinations that are unusual but not illogical. Ask me what would have to change for one of them to fit my materials and limits.\n\nStep 3, look again at what I have. Ask me what resources, skills and people are actually available, and what I believe is missing. Treat that constraint as the design driver: give me options that deliver the function using only what I have, and push each one toward doing more with fewer parts. Include at least one option that removes or simplifies something rather than adding it, and for each, say what I would give up. Do not propose anything that needs the thing I said I do not have.\n\nClose by listing the options now on the table, the objection to my original idea that I still have to answer, and what I decided to leave out and why. The choice, and the case for it, is mine."}, "Check the consequences": {"pm": "You are helping me check the consequences of a decision before I make it. Work through three steps in order. Ask one question at a time and wait for my answer. Do not tell me whether to go ahead.\n\nStart by asking me to describe the decision, the benefit I expect from it, and when it has to be made.\n\nStep 1, follow it past the first effect. Build a futures wheel in words. Put the decision in the center. Move quickly past the direct effects I already see, and spend your effort on what those effects set off, and then what follows from that. Draw the connections where one branch feeds another. Mark each link as backed by evidence, a likely mechanism, or a guess, so that detail does not pass for probability. Ask me which consequences I would actually act on, and for each, what an owner would have to watch to catch it early.\n\nStep 2, imagine it has already failed. Run a pre-mortem: it is a year from now and the decision has failed. Stay in the past tense and tell me what went wrong, tied to the actual parts of this decision, not generic causes. Rank the failures by how serious and how likely, and tell me the ranking rather than a single score. Then ask me which of these I will personally watch, and what early warning would make me act.\n\nStep 3, find who was not in the room. Help me map everyone affected on a power-and-interest grid, and look on purpose at the people with a high stake and little say. Walk the decision through its whole life, from making it to living with it to undoing it, and tell me who bears a cost at each stage that never appears in my accounting. Point out anywhere the decision improves one stage by pushing a bigger problem onto another. Then ask me who I should go and talk to before deciding, and what I would ask them.\n\nClose by listing the consequences I chose to act on and who owns each, the failure I said I would watch for, and the person or group I still have to hear from. The decision, and the responsibility for it, stay mine."}, "Plan under uncertainty": {"pm": "You are helping me plan a path when I cannot know how things will turn out. Work through three steps in order. Ask one question at a time and wait for my answer. Do not pick the plan for me.\n\nStart by asking me for the goal, the constraints, and the date I am working toward.\n\nStep 1, set the sequence. Ask me to lay out my own order of work first: the outcome, the first milestone that would show progress, and the steps in the order I think they must happen. Then propose two genuinely different sequences that could also reach the goal, as ordered paths rather than task lists. For each, including mine, find the critical path, the tasks that set the finish date, say which activities have slack, and say what the sequence bets on. Ask me how long similar work took last time and point out where my estimates assume things go well. Do not recommend one. I own the order.\n\nStep 2, picture futures that differ. Help me name the forces that could change the conditions around this plan, and pick the two that are both most uncertain and most consequential. Cross them into four futures that are genuinely different worlds, not a good, middling and bad version of today. For the one I want, work backwards: what would have to be true, and what would I have to do, for it to arrive. Then name one present-day sign per future that I could actually watch, and ask me which one I will track and what would make me change the plan.\n\nStep 3, sort what I know from what I assume. Place the situation in Cynefin: clear, complicated, complex or chaotic, and say why, because that tells me whether to analyze further or to try something small and safe. Then list the assumptions my plan depends on and plot each by how much it matters if it is wrong against how much evidence I have. Hand me the ones that matter most with the least evidence. Where I need a number, ask me for my own range before you offer one. Then ask me for one small, reversible step I could take this week that would teach me something about the biggest unknown.\n\nClose by stating the sequence I chose and what it bets on, the sign I will watch and what would change my mind, and the first step I said I would take. The plan is mine to revise."}, "Try it small and learn": {"pm": "You are helping me test an idea at small scale and learn from what happens. Work through three steps in order. Ask one question at a time and wait for my answer. Do not predict the result for me; the observations are mine to collect.\n\nStart by asking me what I want to try, what I expect to happen, and who it is meant to help.\n\nStep 1, plan a test that could prove me wrong. Ask me to write down my prediction and the result that would make me reconsider, before any data exists. Then help me choose the two or three factors that matter and build a small factorial plan that lets me see each one's effect and how they combine, in as few runs as I can manage. Tell me which interactions I would miss at that size. Say what I should measure and how I will know the test is done.\n\nStep 2, test the weakest link before I scale. Help me draw the chain from what I do to who ends up better off: activities, outputs, outcomes, impact, with the assumption written under every arrow. Ask me which assumption the whole result depends on and how much evidence I have for it. Turn that assumption into a prediction I can check with the smallest version of the idea, and ask me what I will look for. Do not let me design for reach until that check has a result.\n\nStep 3, read what happened as information. When I come back with the result, run an after-action review with me: what I expected, what actually happened, where the gap is, and what I will change on the next attempt. No blame; I want the information. If I am stuck, help me find the narrow piece that is actually failing, rather than the whole task, and design a short practice for that piece with feedback I get straight away. Be honest about which route I am avoiding because it is tedious.\n\nClose by stating the prediction I made and whether it held, the assumption I tested and what it showed, and the one change I will make next time. The next attempt is mine."}};
@@ -4704,7 +4728,7 @@ function refsHTML(h){
   const refs=r.refs.map(x=>`<li><span class="rs-cite">${x.url?`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.cite)}</a>`:esc(x.cite)}</span><span class="rs-find">${esc(x.find)}</span></li>`).join('');
   return `<div class="research rs-bottom">
     <details class="rs-refs"><summary>References for this habit (${r.refs.length})</summary><ol class="rs-list">${refs}</ol></details>
-    <p class="rs-more">These are the studies behind the "What the research says" section at the top of this page. <a onclick="go('refs')">The research page</a> covers what careless AI use does to each habit.</p>
+    <p class="rs-more">These are the studies behind the "What the research says" section at the top of this page. <a onclick="go('refs')">The research page</a> collects the references for every habit, together with the studies on AI and thinking.</p>
   </div>`;
 }
 function dispositionHTML(h){
@@ -4730,18 +4754,28 @@ function exampleHTML(h){
   </details>`;
 }
 
+function refCard(r,withHabits){
+  const cite=r.url?`<a href="${r.url}" target="_blank" rel="noopener">${esc(r.cite)}</a>`:esc(r.cite);
+  return `<div class="ref-card"><div class="ref-cite">${cite}</div>
+    ${r.find?`<div class="ref-find">${esc(r.find)}</div>`:''}
+    ${withHabits&&r.habits?`<div class="ref-habits">Relevant to: ${esc(r.habits)}</div>`:''}
+    ${r.caveat?`<div class="ref-caveat">A caveat. ${esc(r.caveat)}</div>`:''}</div>`;
+}
 function buildRefs(){
   const list=document.getElementById('refList');
-  list.innerHTML='';
-  REFS.forEach(r=>{
-    const d=document.createElement('div');
-    d.className='ref-card';
-    d.innerHTML=`<div class="ref-cite">${r.cite}</div>
-      <div class="ref-find">${r.find}</div>
-      <div class="ref-habits">Supports: ${r.habits}</div>
-      ${r.caveat?`<div class="ref-caveat">Caveat. ${r.caveat}</div>`:''}`;
-    list.appendChild(d);
+  if(list.dataset.built) return;
+  list.dataset.built='1';
+  let html=`<details class="ref-group" open><summary><span class="ref-group-h">Studies on AI and thinking</span><span class="ref-group-n">${REFS.length} studies</span></summary>
+    <p class="ref-group-lede">What happens to a habit when AI does the work it used to take. These are the studies behind that claim, with a note on what each one found and where it is thin.</p>
+    <div class="ref-cards">${REFS.map(r=>refCard(r,true)).join('')}</div></details>`;
+  html+=`<h3 class="serif ref-section-h">The references behind each habit page</h3>
+    <p class="ref-group-lede">Each habit page opens with what the research says about that habit. These are the works those sections draw on, in the order the page cites them.</p>`;
+  HABITS.forEach(h=>{
+    const R=RESEARCH[h.name]; if(!R||!R.refs) return;
+    html+=`<details class="ref-group"><summary><span class="ref-group-h">${esc(h.name)}</span><span class="ref-group-n">${R.refs.length} references</span></summary>
+      <div class="ref-cards">${R.refs.map(r=>refCard(r,false)).join('')}</div></details>`;
   });
+  list.innerHTML=html;
 }
 
 function promptHTML(h){
