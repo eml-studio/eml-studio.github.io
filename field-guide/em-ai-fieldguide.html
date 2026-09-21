@@ -170,6 +170,9 @@
   }
   .idea-step h3{font-family:Georgia,serif;font-weight:normal;font-size:1.25rem;color:var(--navy);margin-bottom:6px;}
   .idea-step p{color:var(--ink-soft);max-width:600px;}
+  /* The idea page: prose spans the same width as the card and sits flush to both margins. */
+  #intro .lede,#intro .idea-step p{max-width:none;}
+  @media(min-width:640px){#intro .lede,#intro .idea-step p,#intro .preshow-v,#intro .principle p{text-align:justify;hyphens:auto;}}
 
   .principle{
     margin-top:48px;background:var(--navy);color:var(--cream);
@@ -872,7 +875,7 @@ h2.head{font-size:clamp(1.7rem,3.2vw,2.35rem);}
       </div>
       <div class="preshow-row">
         <span class="preshow-k">How to use it</span>
-        <span class="preshow-v">Read the idea below, then pick a habit that matters to you. Each one shows how AI helps, the trap to avoid, a prompt to run yourself, and an activity to run with students.</span>
+        <span class="preshow-v">Read the idea below, then pick a habit that matters to you. Each page gives you the research behind the habit in plain words, the disposition underneath it, where it shows up in the case studies, a way to connect it to a concept you teach, and a prompt to run yourself or with students.</span>
       </div>
       <div class="preshow-row">
         <span class="preshow-k">What you'll leave with</span>
